@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/boardHomeFragment">
+
+    <fragment
+        android:id="@+id/boardHomeFragment"
+        android:name="com.example.news_app.ui.adapters.onboard.BoardHomeFragment"
+        android:label="fragment_board_home"
+        tools:layout="@layout/fragment_board_home" >
+        <action
+            android:id="@+id/action_boardHomeFragment_to_selectFragment"
+            app:destination="@id/selectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.example.news_app.ui.adapters.onboard.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" />
+    <fragment
+        android:id="@+id/selectFragment"
+        android:name="com.example.news_app.ui.adapters.onboard.SelectFragment"
+        android:label="fragment_select"
+        tools:layout="@layout/fragment_select" />
+</navigation>
