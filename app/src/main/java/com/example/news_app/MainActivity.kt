@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.news_app.ui.OnboardActivity
+import com.example.news_app.ui.adapters.onboard.WelcomeFragment
 import com.example.news_app.ui.mainUi.BottomnavActivity
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, BottomnavActivity::class.java)
+            val intent = Intent(this, OnboardActivity::class.java)
             startActivity(intent)
             finish()
         },2000)

@@ -2,29 +2,18 @@ package com.example.news_app.di.module
 
 import android.content.Context
 import androidx.room.Room
-import com.example.news_app.database.AppDatabase
-import com.example.news_app.database.CategoryDao
+import com.example.news_app.database.Db
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DatabaseModule(var context: Context) {
+class DatabaseModule {
 
-    @Provides
     @Singleton
-    fun provideContext(): Context = context
-
     @Provides
-    @Singleton
-    fun provideAppDatabase(): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, "my_db")
-            .fallbackToDestructiveMigration()
-            .build()
+    fun provideFakerDB(context : Context) : Db{
+        return Room.databaseBuilder(context, Db::class.java, "FakerDB").build()
     }
-
-    @Provides
-    @Singleton
-    fun provideUserDao(appDatabase: AppDatabase): CategoryDao = appDatabase.categoryDao()
 
 }

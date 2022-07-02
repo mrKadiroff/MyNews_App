@@ -3,42 +3,39 @@ package com.example.news_app.ui.mainUi
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.news_app.App
-import com.example.news_app.R
+import com.example.news_app.database.Db
 import com.example.news_app.databinding.ActivityBottomnavBinding
 import com.example.news_app.utils.Status
-import com.example.news_app.viewmodels.UserViewModel
+import com.example.news_app.viewmodels.MainViewModel
+import com.example.news_app.viewmodels.MainViewModelFactory
 import javax.inject.Inject
 
 class BottomnavActivity : AppCompatActivity() {
 
+    lateinit var mainViewModel: MainViewModel
+
     @Inject
-    lateinit var userViewModel: UserViewModel
+    lateinit var db: Db
+
+    @Inject
+    lateinit var mainViewModelFactory: MainViewModelFactory
     private val TAG = "BottomnavActivity"
     lateinit var binding: ActivityBottomnavBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBottomnavBinding.inflate(layoutInflater)
-        App.appComponent.inject(this)
         setContentView(binding.root)
 
+        App.appComponent.inject(this)
+        mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
 
-        userViewModel.getUsers().observe(this, Observer {
-            when(it.status){
-                Status.LOADING -> {
 
-                }
-                Status.ERROR -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "onCreate: ${it.message}")
-                }
-                Status.SUCCESS -> {
-                    Log.d(TAG, "onCreate: ${it.data}")
-                }
-            }
+        mainViewModel.productsLiveData.observe(this, Observer {
+            binding.experimentee.text =  it.joinToString { x -> x.name + "\n\n" }
         })
 
     }
