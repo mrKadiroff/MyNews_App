@@ -1,4 +1,4 @@
-package com.example.news_app.network.modelsearch
+package com.example.news_app.retrofit.models
 
 data class SearchResult(
     val articles: List<Article>,

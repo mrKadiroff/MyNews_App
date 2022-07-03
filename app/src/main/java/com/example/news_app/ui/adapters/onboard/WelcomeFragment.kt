@@ -8,18 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.news_app.App
-import com.example.news_app.R
 import com.example.news_app.database.Db
-import com.example.news_app.databinding.FragmentBoardHomeBinding
 import com.example.news_app.databinding.FragmentWelcomeBinding
-import com.example.news_app.network.RetrofitClient
-import com.example.news_app.network.modelsearch.SearchResult
+import com.example.news_app.retrofit.FakerAPI
+import com.example.news_app.utils.Constants
+import com.example.news_app.utils.Status
 import com.example.news_app.viewmodels.MainViewModel
 import com.example.news_app.viewmodels.MainViewModelFactory
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
@@ -54,6 +54,7 @@ class WelcomeFragment : Fragment() {
     lateinit var mainViewModelFactory: MainViewModelFactory
     lateinit var binding: FragmentWelcomeBinding
     private val TAG = "WelcomeFragment"
+    var word:String =""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,30 +65,69 @@ class WelcomeFragment : Fragment() {
 
 
         mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
+
+
+
+        //room db
         mainViewModel.productsLiveData.observe(viewLifecycleOwner, Observer {
             binding.tarif.text=  it.joinToString { x -> x.name + "\n\n" }
         })
 
 
-        RetrofitClient.apiService().getDataByTitle().enqueue(object:
-        Callback<SearchResult> {
-            override fun onResponse(call: Call<SearchResult>, response: Response<SearchResult>) {
-                if (response.isSuccessful){
-                    val body = response.body()
-                    Log.d(TAG, "onResponse: $body")
 
 
+
+
+        //search api
+        GlobalScope.launch(Dispatchers.Main) {
+            mainViewModel.getWord("Apple").observe(viewLifecycleOwner) {
+
+                when (it.status) {
+                    Status.LOADING -> {
+
+                    }
+                    Status.ERROR -> {
+                        Log.d(TAG, "onCreateView: ${it.message}")
+                    }
+                    Status.SUCCESS -> {
+                        Log.d(TAG, "onCreateView: ${it.data}")
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<SearchResult>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message}")
-            }
 
-        })
+
+            }
+        }
+
+
+
+        GlobalScope.launch(Dispatchers.Main) {
+            mainViewModel.getCategory("science").observe(viewLifecycleOwner) {
+
+                when (it.status) {
+                    Status.LOADING -> {
+
+                    }
+                    Status.ERROR -> {
+                        Log.d(TAG, "onCreateView: ${it.message}")
+                    }
+                    Status.SUCCESS -> {
+                        Log.d(TAG, "onCreateView: ${it.data}")
+                    }
+                }
+
+
+
+            }
+        }
+
+
+
 
         return binding.root
     }
+
+
 
     companion object {
         /**
