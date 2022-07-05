@@ -7,15 +7,150 @@
     android:layout_height="match_parent"
     tools:context=".ui.mainUi.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
-        android:id="@+id/experimentt"
+        android:id="@+id/browse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="Home_Fragment" />
+        android:textSize="24sp"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/black"
+        android:text="Browse" />
+
+    <TextView
+        android:id="@+id/discover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Discover things of this world"
+        app:layout_constraintTop_toBottomOf="@id/browse"
+        app:layout_constraintStart_toStartOf="@id/browse"/>
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="12sp"
+        android:id="@+id/qidiruv_constraint"
+        android:background="@drawable/search_background"
+        app:layout_constraintTop_toBottomOf="@id/discover"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <EditText
+            android:id="@+id/edittext"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/white"
+            android:gravity="start|center"
+            android:imeOptions="actionSearch"
+            tools:ignore="MissingConstraints"
+            android:hint="search..."
+            android:paddingStart="22dp"
+            android:textSize="14sp"
+            android:background="@null"
+            android:inputType="text|textNoSuggestions"
+            app:layout_constraintStart_toEndOf="@id/search"
+            app:layout_constraintEnd_toStartOf="@id/microphone"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </EditText>
+
+
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="16sp"
+            android:src="@drawable/searchch"
+            app:layout_constraintBottom_toBottomOf="@id/edittext"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.07"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/microphone"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/microphonee"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.96"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchrv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/qidiruv_constraint"
+        android:layout_marginTop="12dp"
+        tools:listitem="@layout/searchi_item"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutgalvni"
+        android:layout_width="match_parent"
+        android:layout_marginTop="12sp"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintTop_toBottomOf="@id/qidiruv_constraint"
+        app:tabMode="scrollable"
+        app:tabIndicatorHeight="0dp"
+        android:layout_marginBottom="22dp"
+        />
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager2"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayoutgalvni"
+        android:layout_height="275dp">
+
+
+    </androidx.viewpager2.widget.ViewPager2>
+
+
+
+    <TextView
+        android:id="@+id/recomended"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recommended for you"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewPager2"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:listitem="@layout/vertical_rv"
+        app:layout_constraintTop_toBottomOf="@id/recomended"
+        android:id="@+id/verticalRv"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

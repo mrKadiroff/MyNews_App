@@ -19,12 +19,28 @@ class NewsRepository @Inject constructor(private val fakerAPI: FakerAPI, private
 
     suspend fun getDb(){
         val list = ArrayList<CategoryEntity>()
-        val product = CategoryEntity(1,"Shoxrux",true)
-        val product1 = CategoryEntity(1,"Farrux",true)
+        val product = CategoryEntity(1,"entertainment",false)
+        val product1 = CategoryEntity(2,"business",false)
+        val product3 = CategoryEntity(3,"general",false)
+        val product4 = CategoryEntity(4,"health",false)
+        val product5 = CategoryEntity(5,"science",false)
+        val product6 = CategoryEntity(6,"sports",false)
+        val product7 = CategoryEntity(7,"technology",false)
         list.add(product)
         list.add(product1)
-        appDatabase.categoryDao().addAll(list)
-        _products2.postValue(list)
+        list.add(product3)
+        list.add(product4)
+        list.add(product5)
+        list.add(product6)
+        list.add(product7)
+        val categories = appDatabase.categoryDao().getCategories()
+        if (categories.isEmpty()){
+            appDatabase.categoryDao().addAll(list)
+            _products2.postValue(list)
+        }else{
+            _products2.postValue(categories)
+        }
+
     }
 
 
@@ -36,8 +52,8 @@ class NewsRepository @Inject constructor(private val fakerAPI: FakerAPI, private
         get() = _products
 
 
-    suspend fun getProducts(word:String){
-        val result = fakerAPI.getProducts(word)
+    suspend fun getProducts(word:String,language:String){
+        val result = fakerAPI.getProducts(word,language)
         if(result.isSuccessful && result.body() != null){
             _products.postValue(result.body())
         }
@@ -49,9 +65,11 @@ class NewsRepository @Inject constructor(private val fakerAPI: FakerAPI, private
 
     //experiemnt api
 
-    suspend fun getStandings(name:String) = fakerAPI.getProducts(name)
+    suspend fun getStandings(name:String,language: String) = fakerAPI.getProducts(name,language)
 
 
     suspend fun getCategory(name:String) = fakerAPI.getByCategory(name)
+
+//    suspend fun getByBoolean() = appDatabase.categoryDao().getCategoriesByBoolean(true)
 
 }

@@ -14,6 +14,7 @@ interface FakerAPI {
     @GET("everything")
     suspend fun getProducts(
         @Query("q") q:String,
+        @Query("language") language:String,
         @Query("apiKey") apiKey:String = "16e1b529b13e47fea83f887a4d37bb78"
     ) : Response<SearchResult>
 

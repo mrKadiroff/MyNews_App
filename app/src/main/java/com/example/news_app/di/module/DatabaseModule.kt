@@ -13,7 +13,10 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideFakerDB(context : Context) : Db{
-        return Room.databaseBuilder(context, Db::class.java, "FakerDB").build()
+        return Room.databaseBuilder(context, Db::class.java, "FakerDB")
+            .allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
 }

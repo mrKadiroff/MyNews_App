@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.news_app.App
+import com.example.news_app.R
 import com.example.news_app.database.Db
 import com.example.news_app.databinding.FragmentWelcomeBinding
 import com.example.news_app.retrofit.FakerAPI
@@ -21,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,13 +48,7 @@ class WelcomeFragment : Fragment() {
         }
     }
 
-    lateinit var mainViewModel: MainViewModel
 
-    @Inject
-    lateinit var db: Db
-
-    @Inject
-    lateinit var mainViewModelFactory: MainViewModelFactory
     lateinit var binding: FragmentWelcomeBinding
     private val TAG = "WelcomeFragment"
     var word:String =""
@@ -61,65 +58,60 @@ class WelcomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding =  FragmentWelcomeBinding.inflate(layoutInflater,container,false)
-        App.appComponent.injectWelcome(this)
-
-
-        mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
 
 
 
-        //room db
-        mainViewModel.productsLiveData.observe(viewLifecycleOwner, Observer {
-            binding.tarif.text=  it.joinToString { x -> x.name + "\n\n" }
-        })
-
-
-
-
-
-
-        //search api
-        GlobalScope.launch(Dispatchers.Main) {
-            mainViewModel.getWord("Apple").observe(viewLifecycleOwner) {
-
-                when (it.status) {
-                    Status.LOADING -> {
-
-                    }
-                    Status.ERROR -> {
-                        Log.d(TAG, "onCreateView: ${it.message}")
-                    }
-                    Status.SUCCESS -> {
-                        Log.d(TAG, "onCreateView: ${it.data}")
-                    }
-                }
-
-
-
-            }
+        binding.next.setOnClickListener {
+            findNavController().navigate(R.id.selectFragment)
         }
 
 
 
-        GlobalScope.launch(Dispatchers.Main) {
-            mainViewModel.getCategory("science").observe(viewLifecycleOwner) {
-
-                when (it.status) {
-                    Status.LOADING -> {
-
-                    }
-                    Status.ERROR -> {
-                        Log.d(TAG, "onCreateView: ${it.message}")
-                    }
-                    Status.SUCCESS -> {
-                        Log.d(TAG, "onCreateView: ${it.data}")
-                    }
-                }
 
 
-
-            }
-        }
+//
+//        //search api
+//        GlobalScope.launch(Dispatchers.Main) {
+//            mainViewModel.getWord("Apple").observe(viewLifecycleOwner) {
+//
+//                when (it.status) {
+//                    Status.LOADING -> {
+//
+//                    }
+//                    Status.ERROR -> {
+//                        Log.d(TAG, "onCreateView: ${it.message}")
+//                    }
+//                    Status.SUCCESS -> {
+//                        Log.d(TAG, "onCreateView: ${it.data}")
+//                    }
+//                }
+//
+//
+//
+//            }
+//        }
+//
+//
+//
+//        GlobalScope.launch(Dispatchers.Main) {
+//            mainViewModel.getCategory("science").observe(viewLifecycleOwner) {
+//
+//                when (it.status) {
+//                    Status.LOADING -> {
+//
+//                    }
+//                    Status.ERROR -> {
+//                        Log.d(TAG, "onCreateView: ${it.message}")
+//                    }
+//                    Status.SUCCESS -> {
+//                        Log.d(TAG, "onCreateView: ${it.data}")
+//                    }
+//                }
+//
+//
+//
+//            }
+//        }
 
 
 

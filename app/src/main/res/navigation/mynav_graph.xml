@@ -11,8 +11,19 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/childFragment"
-        android:name="com.example.news_app.ui.mainUi.ChildFragment"
-        android:label="fragment_child"
-        tools:layout="@layout/fragment_child" />
+        android:id="@+id/categoryFragment"
+        android:name="com.example.news_app.ui.mainUi.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="com.example.news_app.ui.mainUi.BookmarkFragment"
+        android:label="fragment_bookmark"
+        tools:layout="@layout/fragment_bookmark" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.news_app.ui.mainUi.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+
 </navigation>

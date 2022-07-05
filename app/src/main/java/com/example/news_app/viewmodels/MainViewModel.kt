@@ -22,6 +22,7 @@ class MainViewModel  @Inject constructor(private val repository: NewsRepository,
     var wordim:String =""
     private val liveSearchsData = MutableLiveData<Resource<SearchResult>>()
     private val liveCategoryData = MutableLiveData<Resource<SearchResult>>()
+    private val liveSelectedData = MutableLiveData<Resource<List<CategoryEntity>>>()
 
     val productsLiveData : LiveData<List<CategoryEntity>>
         get() = repository.products2
@@ -37,14 +38,14 @@ class MainViewModel  @Inject constructor(private val repository: NewsRepository,
 
     // from api
 
-    fun getWord(word:String): LiveData<Resource<SearchResult>> {
+    fun getWord(word:String,language:String): LiveData<Resource<SearchResult>> {
 
         viewModelScope.launch {
             liveSearchsData.postValue(Resource.loading(null))
             try {
                 coroutineScope {
 
-                    val async1 = async { repository.getStandings(word) }
+                    val async1 = async { repository.getStandings(word,language) }
 
                     val await1 = async1.await()
                     liveSearchsData.postValue(Resource.success(await1.body()))
@@ -79,6 +80,30 @@ class MainViewModel  @Inject constructor(private val repository: NewsRepository,
         }
         return liveCategoryData
     }
+
+
+
+
+
+//    fun getSelectedCategory(): LiveData<Resource<List<CategoryEntity>>> {
+//
+//        viewModelScope.launch {
+//            liveSelectedData.postValue(Resource.loading(null))
+//            try {
+//                coroutineScope {
+//
+//                    val async1 = async { repository.getByBoolean() }
+//
+//                    val await1 = async1.await()
+//                    liveSelectedData.postValue(Resource.success(await1))
+//
+//                }
+//            }catch (e:Exception){
+//                liveSelectedData.postValue(Resource.error(e.message ?: "Error",null))
+//            }
+//        }
+//        return liveSelectedData
+//    }
 
 
 //    val productsLiveData2 : LiveData<SearchResult>
